@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}Sign Up{% endblock title %}
+
+{% block page_content %}
+<h2>Please register below</h2>
+  <form method="POST">
+      {{ form.hidden_tag() }}
+
+      <div class="form-group">
+          <label for="first_name">{{ form.first_name.label.text }}</label>
+          {{ form.first_name(class="form-control", id="first_name") }}
+          {% for error in form.first_name.errors %}
+              <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+      </div>
+
+      <div class="form-group">
+          <label for="last_name">{{ form.last_name.label.text }}</label>
+          {{ form.last_name(class="form-control", id="last_name") }}
+          {% for error in form.last_name.errors %}
+              <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+      </div>
+
+      <div class="form-group">
+          <label for="email">{{ form.email.label.text }}</label>
+          {{ form.email(class="form-control", id="email") }}
+          {% for error in form.email.errors %}
+              <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+      </div>
+
+      <div class="form-group">
+          <label for="password">{{ form.password.label.text }}</label>
+          {{ form.password(class="form-control", id="password") }}
+          {% for error in form.password.errors %}
+              <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+      </div>
+
+      <div class="form-group">
+          <label for="confirm_password">{{ form.confirm_password.label.text }}</label>
+          {{ form.confirm_password(class="form-control", id="confirm_password") }}
+          {% for error in form.confirm_password.errors %}
+              <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="_phone">{{ form.phone_number.label.text }}</label>
+        <!-- This is the visible phone input field handled by intl-tel-input -->
+        <input type="tel" id="_phone" class="form-control">
+        
+        <!-- Hidden input field to store the actual phone number -->
+        <input type="hidden" id="phone" name="phone_number" value="{{ form.phone_number.data }}">
+    
+        {% for error in form.phone_number.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+
+      <div class="form-group">
+          <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+      </div>
+  </form>
+{% endblock page_content %}
+
+{% block scripts %}
+  {{ super() }}
+  
+  <script src="{{ url_for('static', filename='js/country_code.js') }}"></script>
+{% endblock scripts %}

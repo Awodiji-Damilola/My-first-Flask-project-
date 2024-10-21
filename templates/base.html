@@ -1,0 +1,70 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}{% endblock %}
+
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='logo_white.png') }}" type="image">
+<link rel="icon" href="{{ url_for('static', filename='logo_white.png') }}" type="image">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/css/intlTelInput.css">
+{% endblock head %}
+    
+{% block navbar %}
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Flasky</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="{% if request.path == '/' %}active{% endif %}"><a href="/">Home</a></li>
+          <li class="{% if request.path == '/dashboard' %}active{% endif %}"><a href="/dashboard">Dashboard</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {% if session.get('logged_in') %}
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            {% else %}
+                <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            {% endif %}
+        </ul>
+      </div>
+    </div>
+</nav>
+{% endblock %}
+
+<!-- Flash messages block -->
+
+
+{% block content %}
+<div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% block page_content %}{% endblock %}
+</div>
+{% endblock content %}
+
+{% block scripts %}
+    {{ super() }}
+    {{moment.include_moment() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/utils.js"></script>
+{% endblock scripts %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block page_content %}
+    
+    {% if session.get('logged_in') %}
+        <h1>Welcome {{ session['name'] }}!</h1>
+        <p>Here's a quick summary of your account:</p>
+        <ul>
+            <li>Username: {{ session['username'] }}</li>
+            <li>Email: {{ session['email'] }}</li>
+            <li>Joined: {{ session['date_joined'] }}</li>
+            <li>Phone number: {{ session['phone_number'] }}</li>
+        </ul>
+        {% if session.phone_number == 'N/A' %}
+            <div class="alert alert-warning">
+                Please <a href="{{ url_for('update_profile') }}">update your phone number</a> to continue.
+            </div>
+        {% endif %}
+    {% else %}
+        <h1>Welcome, Stranger! Please log in to continue</h1>
+        <button><a href="{{ url_for('login')}}">LOG IN🙂</a></button>
+    {% endif %}
+
+{% endblock page_content %}
